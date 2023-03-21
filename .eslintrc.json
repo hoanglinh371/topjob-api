@@ -1,0 +1,19 @@
+{
+  "extends": ["airbnb-base/legacy", "prettier", "plugin:node/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    // "prettier/prettier": "error",
+    "func-names": "off",
+    "no-console": "warn",
+    "consistent-return": "off",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|value" }],
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": "off",
+    "no-return-await": "off",
+    "no-param-reassign": "off"
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false
+  }
+}
