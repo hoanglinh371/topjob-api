@@ -13,6 +13,12 @@ class Database {
       mongoose.set('debug', { color: true });
     }
 
+    if (process.env.NODE_ENV === 'production') {
+      mongoose.connect(process.env.MONGO_URI_PROD).then(() => {
+        console.log(`MongoDB Connection Successful`);
+      });
+    }
+
     mongoose.connect(process.env.MONGO_URI).then(() => {
       console.log(`MongoDB Connection Successful`);
     });
