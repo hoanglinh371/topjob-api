@@ -11,17 +11,16 @@ class Database {
     if (process.env.NODE_ENV === 'development') {
       mongoose.set('debug', true);
       mongoose.set('debug', { color: true });
-    }
 
-    if (process.env.NODE_ENV === 'production') {
       mongoose.connect(process.env.MONGO_URI_PROD).then(() => {
+        console.log(`DEVELOPMENT::MongoDB Connection Successful`);
+      });
+    }
+    if (process.env.NODE_ENV === 'production') {
+      mongoose.connect(process.env.MONGO_URI).then(() => {
         console.log(`PRODUCTION::MongoDB Connection Successful`);
       });
     }
-
-    mongoose.connect(process.env.MONGO_URI).then(() => {
-      console.log(`MongoDB Connection Successful`);
-    });
   }
 
   static getInstance() {
