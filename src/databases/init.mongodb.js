@@ -15,7 +15,7 @@ class Database {
 
     if (process.env.NODE_ENV === 'production') {
       mongoose.connect(process.env.MONGO_URI_PROD).then(() => {
-        console.log(`MongoDB Connection Successful`);
+        console.log(`PRODUCTION::MongoDB Connection Successful`);
       });
     }
 
