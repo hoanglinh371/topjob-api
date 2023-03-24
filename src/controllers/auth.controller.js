@@ -19,6 +19,36 @@ class AuthController {
 
     return res.status(200).json(await AuthService.logIn(email, password));
   });
+
+  static httpForgotPassword = catchAsync(async (req, res, next) => {
+    const { protocol, host } = req;
+    const { email } = req.body;
+
+    return res
+      .status(200)
+      .json(await AuthService.forgotPassword(email, protocol, host));
+  });
+
+  static httpResetPassword = catchAsync(async (req, res, next) => {
+    const { resetToken } = req.params;
+    const { newPassword, confirmNewPassword } = req.body;
+
+    return res
+      .status(200)
+      .json(
+        await AuthService.resetPassword(
+          newPassword,
+          confirmNewPassword,
+          resetToken
+        )
+      );
+  });
+
+  static httpUpdatePassword = catchAsync(async (req, res, next) => {
+    const { user, body } = req;
+
+    return res.status(200).json(await AuthService.updatePassword(user, body));
+  });
 }
 
 module.exports = AuthController;

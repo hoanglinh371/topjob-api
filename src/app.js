@@ -6,24 +6,37 @@ const cors = require('cors');
 const compression = require('compression');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const { rateLimit } = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const globalErrorHandler = require('./controllers/error.controller');
 const AppError = require('./utils/app-error.util');
 const jobRouter = require('./routes/job.routes');
 const authRouter = require('./routes/auth.routes');
+const { convertHour2Millisec } = require('./helpers/convert-time.helper');
 
 dotenv.config();
 
 const app = express();
 
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+const limiter = rateLimit({
+  max: 100,
+  windowMs: convertHour2Millisec(1),
+  message: 'To many requests from this IP, please try again in an hour!',
+});
+app.use('/api', limiter);
+
 app.use(helmet());
 app.use(cors());
 
-app.use(morgan('dev'));
-
-app.use(compression());
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(mongoSanitize());
+app.use(compression());
 
 require('./databases/init.mongodb');
 

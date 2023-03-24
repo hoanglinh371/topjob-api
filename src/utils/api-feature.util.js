@@ -1,3 +1,5 @@
+'use strict';
+
 class ApiFeature {
   constructor(query, queryString) {
     this.query = query;
