@@ -9,7 +9,7 @@ const jobRouter = express.Router();
 
 jobRouter
   .route('/')
-  .get(AuthMiddleware.protect, JobController.httpGetJobs)
+  .get(JobController.httpGetJobs)
   .post(
     AuthMiddleware.protect,
     AuthMiddleware.restrictTo('admin', 'hr'),
