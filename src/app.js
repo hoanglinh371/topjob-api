@@ -19,19 +19,19 @@ dotenv.config();
 
 const app = express();
 
+app.use(cors());
+app.use(helmet());
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// const limiter = rateLimit({
-//   max: 100,
-//   windowMs: convertHour2Millisec(1),
-//   message: 'To many requests from this IP, please try again in an hour!',
-// });
-// app.use('/api', limiter);
-
-app.use(helmet());
-app.use(cors());
+const limiter = rateLimit({
+  max: 100,
+  windowMs: convertHour2Millisec(1),
+  message: 'To many requests from this IP, please try again in an hour!',
+});
+app.use('/api', limiter);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
