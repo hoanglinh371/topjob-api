@@ -42,9 +42,8 @@ class AuthMiddleware {
   static restrictTo = (...roles) => {
     return (req, res, next) => {
       if (!roles.includes(req.user.role)) {
-        return new AppError(
-          'You do not have permission to perform ths action',
-          403
+        return next(
+          new AppError('You do not have permission to perform ths action', 403)
         );
       }
 
