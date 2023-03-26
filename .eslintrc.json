@@ -6,7 +6,10 @@
     "func-names": "off",
     "no-console": "warn",
     "consistent-return": "off",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|value" }],
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "req|res|next|error|value" }
+    ],
     "class-methods-use-this": "off",
     "no-underscore-dangle": "off",
     "no-return-await": "off",

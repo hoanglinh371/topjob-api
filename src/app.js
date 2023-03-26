@@ -10,10 +10,11 @@ const { rateLimit } = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 
 const globalErrorHandler = require('./controllers/error.controller');
+const { convertHour2Millisec } = require('./helpers/convert-time.helper');
 const AppError = require('./utils/app-error.util');
 const jobRouter = require('./routes/job.routes');
 const authRouter = require('./routes/auth.routes');
-const { convertHour2Millisec } = require('./helpers/convert-time.helper');
+const userRouter = require('./routes/user.routes');
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ require('./databases/init.mongodb');
 
 app.use('/api/v1/jobs', jobRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can not find ${req.originalUrl} on this server!`, 404));

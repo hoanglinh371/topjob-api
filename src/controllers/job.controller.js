@@ -1,5 +1,7 @@
+'use strict';
+
 const JobService = require('../services/job.service');
-const catchAsync = require('../utils/catch-async.utils');
+const catchAsync = require('../utils/catch-async.util');
 
 class JobController {
   static httpGetJobs = catchAsync(async (req, res, next) => {
@@ -11,7 +13,7 @@ class JobController {
   });
 
   static httpCreateJob = catchAsync(async (req, res, next) => {
-    return res.status(201).json(await JobService.createJob(req.body));
+    return res.status(201).json(await JobService.createJob(req.body, req.file));
   });
 
   static httpUpdateJob = catchAsync(async (req, res, next) => {

@@ -3,7 +3,7 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
-const catchAsync = require('../utils/catch-async.utils');
+const catchAsync = require('../utils/catch-async.util');
 const AppError = require('../utils/app-error.util');
 
 class AuthMiddleware {
@@ -16,7 +16,7 @@ class AuthMiddleware {
     }
     if (!token) {
       return next(
-        new AppError('You are not log in! Please log in to get access', 401)
+        new AppError('You are not log in! Please log in to get access.', 401)
       );
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -31,7 +31,10 @@ class AuthMiddleware {
     }
     if (user.changedPasswordAfter(decoded.iat)) {
       return next(
-        new AppError('User recently changed password! Please log in again', 401)
+        new AppError(
+          'User recently changed password! Please log in again.',
+          401
+        )
       );
     }
     req.user = user;
@@ -43,7 +46,7 @@ class AuthMiddleware {
     return (req, res, next) => {
       if (!roles.includes(req.user.role)) {
         return next(
-          new AppError('You do not have permission to perform ths action', 403)
+          new AppError('You do not have permission to perform ths action.', 403)
         );
       }
 

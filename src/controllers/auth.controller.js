@@ -1,7 +1,7 @@
 'use strict';
 
 const AuthService = require('../services/auth.service');
-const catchAsync = require('../utils/catch-async.utils');
+const catchAsync = require('../utils/catch-async.util');
 
 class AuthController {
   static httpRegister = catchAsync(async (req, res, next) => {
