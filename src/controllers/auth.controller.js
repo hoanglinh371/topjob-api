@@ -10,7 +10,10 @@ class AuthController {
     return res
       .status(201)
       .json(
-        await AuthService.register({ name, email, password, confirmPassword })
+        await AuthService.register(
+          { name, email, password, confirmPassword },
+          req.file
+        )
       );
   });
 
