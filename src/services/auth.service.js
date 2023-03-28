@@ -12,9 +12,9 @@ class AuthService {
     { name, email, password, confirmPassword },
     file
   ) => {
-    if (!file) {
-      throw new AppError('Please upload a image!', 400);
-    }
+    // if (!file) {
+    //   throw new AppError('Please upload a image!', 400);
+    // }
 
     const newUser = await User.create({
       name,
