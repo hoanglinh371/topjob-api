@@ -24,12 +24,12 @@ class AuthController {
   });
 
   static httpForgotPassword = catchAsync(async (req, res, next) => {
-    const { protocol, host } = req;
+    const { protocol, hostname } = req;
     const { email } = req.body;
 
     return res
       .status(200)
-      .json(await AuthService.forgotPassword(email, protocol, host));
+      .json(await AuthService.forgotPassword(email, protocol, hostname));
   });
 
   static httpResetPassword = catchAsync(async (req, res, next) => {

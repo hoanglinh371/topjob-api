@@ -8,16 +8,20 @@ const EmailService = require('../services/email.service');
 const { signToken } = require('../utils/token.util');
 
 class AuthService {
-  static register = async ({ name, email, password, confirmPassword }) => {
-    // if (!file) {
-    //   throw new AppError('Please upload a image!', 400);
-    // }
+  static register = async (
+    { name, email, password, confirmPassword },
+    file
+  ) => {
+    if (!file) {
+      throw new AppError('Please upload a image!', 400);
+    }
 
     const newUser = await User.create({
       name,
       email,
       password,
       confirmPassword,
+      photo_url: file.path,
     });
     const token = signToken(newUser._id);
 
@@ -46,7 +50,7 @@ class AuthService {
     };
   };
 
-  static forgotPassword = async (email, protocol, host) => {
+  static forgotPassword = async (email, protocol, hostname) => {
     const user = await User.findOne({ email });
     if (!user) {
       throw new AppError('There is no user with email address.', 404);
@@ -54,7 +58,7 @@ class AuthService {
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
 
-    const resetUrl = `${protocol}://${host}:${process.env.PORT}/api/v1/auth/reset-password/${resetToken}`;
+    const resetUrl = `${protocol}://${hostname}:${process.env.PORT}/api/v1/auth/reset-password/${resetToken}`;
 
     const message = `Forgot your password? ${resetUrl}`;
     const emailOptions = {
