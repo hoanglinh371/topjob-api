@@ -8,31 +8,30 @@ const EmailService = require('../services/email.service');
 const { signToken } = require('../utils/token.util');
 
 class AuthService {
-  static register = async (
-    { name, email, password, confirmPassword },
-    file
-  ) => {
-    if (!file) {
-      throw new AppError('Please upload a image!', 400);
-    }
+  static register = async ({ name, email, password, confirmPassword }) =>
+    // file
+    {
+      // if (!file) {
+      //   throw new AppError('Please upload a image!', 400);
+      // }
 
-    const newUser = await User.create({
-      name,
-      email,
-      password,
-      confirmPassword,
-      photo_url: file.path,
-    });
-    const token = signToken(newUser._id);
+      const newUser = await User.create({
+        name,
+        email,
+        password,
+        confirmPassword,
+        // photo_url: file.path,
+      });
+      const token = signToken(newUser._id);
 
-    return {
-      status: 'success',
-      token,
-      metadata: {
-        user: newUser,
-      },
+      return {
+        status: 'success',
+        token,
+        metadata: {
+          user: newUser,
+        },
+      };
     };
-  };
 
   static logIn = async (email, password) => {
     if (!email || !password) {
