@@ -49,7 +49,8 @@ class AuthService {
     };
   };
 
-  static forgotPassword = async (email, protocol, hostname) => {
+  // remove protocol + host
+  static forgotPassword = async (email) => {
     const user = await User.findOne({ email });
     if (!user) {
       throw new AppError('There is no user with email address.', 404);
@@ -57,7 +58,8 @@ class AuthService {
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
 
-    const resetUrl = `${protocol}://${hostname}:${process.env.PORT}/api/v1/auth/reset-password/${resetToken}`;
+    // const resetUrl = `${protocol}://${hostname}:${process.env.PORT}/api/v1/auth/reset-password/${resetToken}`;
+    const resetUrl = `http://localhost:3000/auth/reset-password/${resetToken}`;
 
     const message = `Forgot your password? ${resetUrl}`;
     const emailOptions = {
